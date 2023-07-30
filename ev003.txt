@@ -1,2 +1,9 @@
 tick101,ev003,fred,20230802,0
 tick101,ev003,fred,20230802,3
+tick107,ev003,Aries,900BC0905,5
+tick107,ev003,Afrodit,900BC0905,6
+tick107,ev003,Afrodit,900BC0905,6
+tick107,ev003,Afrodit,900BC0905,6
+tick107,ev003,Afrodit,900BC0905,6
+tick107,ev003,Afrodit,900BC0905,6
+tick107,ev003,Afrodit,900BC0905,6

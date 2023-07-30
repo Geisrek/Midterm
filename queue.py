@@ -12,7 +12,7 @@ class Queue:
     def peekLast(self):
         return self.queue[len(self.queue)-1]
     def sort_key(self,item):
-        return item.getPriority()
+        return int(item.getPriority())
     def Sorting(self):
       self.queue.sort(key=self.sort_key)
     def toString(self):

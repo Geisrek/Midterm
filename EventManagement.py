@@ -1,5 +1,5 @@
 from queue import Queue
-from user import USER
+from ticket import ticket
 import os
 class Admin:
     __USERName=None
@@ -10,6 +10,7 @@ class Admin:
       self.__USERName="admin"
       self.__Password="admin123123"
       self.__Queue=Queue()
+      self.splitEvents(self.importUsers('Text.txt'))
     def getName(self):
        return self.__USERName
     def getPassword(self):
@@ -27,7 +28,7 @@ class Admin:
           dataspl=data.splitlines()
           file.close()
       except FileNotFoundError:
-        print('file not found')
+        print('File not found')
       return dataspl
     def sortFiles(self):
        try:
@@ -40,10 +41,11 @@ class Admin:
                         with open(x) as file:
                             ls_2=file.read().splitlines()
                             for y in ls_2:
-                                q.enQueue(USER(*y.split(',')))
+                              if y !='':
+                                q.enQueue(ticket(*y.split(',')))
                             file.close()
                     except FileNotFoundError:
-                        print('1 :(')
+                        print('File not found')
                     q.Sorting()
                     st=''
                     for _ in range(q.size()):
@@ -53,9 +55,9 @@ class Admin:
                             ls_2=file.write(st)
                             file.close()
                     except FileNotFoundError:
-                        print('2 :(')
+                        print('File not found')
        except FileNotFoundError:
-            print('3 :(')
+            print('File not found')
           
     def splitEvents(self,dataspl):
        events={}
@@ -63,11 +65,11 @@ class Admin:
        for x in dataspl:
             if not x=='':
                 lis=x.split(',')
-                self.__Queue.enQueue(USER(*lis))
+                self.__Queue.enQueue(ticket(lis[0],lis[1],lis[2],lis[3],int(lis[4])))
                 if lis[1] in list(events.keys()):
-                    events[lis[1]].append(USER(*lis).toString())
+                    events[lis[1]].append(ticket(lis[0],lis[1],lis[2],lis[3],int(lis[4])).toString())
                 else:
-                    events.update({lis[1]:[USER(*lis).toString()]})
+                    events.update({lis[1]:[ticket(lis[0],lis[1],lis[2],lis[3],int(lis[4])).toString()]})
        self.__eventsQ=events
        for key,value in events.items():
           try:
@@ -78,18 +80,18 @@ class Admin:
                 file.write(_str)
                 file.close()
           except FileNotFoundError:
-             print('Error !')
+             print('File not found')
        self.sortFiles()
         
        for x in list(events.keys()):
           path+=f'{x}.txt,'
        path+='Text.txt'
        try :
-            with open('path','w') as file:
+            with open('path.txt','w') as file:
                 file.write(path)
                 file.close()
        except FileNotFoundError:
-           print('somethink wrong !')
+           print('File not found')
     def displayStatics(self):
        self.splitEvents(self.importUsers('Text.txt'))
        print(f'the total of the tickets :{self.__Queue.size()}')
@@ -102,7 +104,7 @@ class Admin:
              file.write(_str)
              file.close()
        except FileNotFoundError:
-          print("File Not found")
+          print('File not found')
     def SaveChanges(self,q):
        _str=''
        try:
@@ -110,22 +112,21 @@ class Admin:
              _str+=file.read()
              file.close()
        except FileNotFoundError:
-          print('somethink wrong!')
+          print('File not found')
        _str+=f"{q.toString()}\n"
        self.UpdateFile(_str)
     
     def BooKing(self,event_Id,User_Name,Time_Stamp,priorety):
-       self.splitEvents(self.importUsers('Text.txt'))
        ticket_id=int(self.__Queue.peekLast().getTikId()[4:])
-       ntid=ticket_id+1
-       return USER(f"tick{ntid}",event_Id,User_Name,Time_Stamp,priorety)
+       ntk=ticket_id+1
+       return ticket(f"tick{ntk}",event_Id,User_Name,Time_Stamp,priorety)
     def displayAllTickets(self):
        try:
           with open('Text.txt') as file:
              print(file.read())
              file.close()
        except:
-          print(':(')
+          print('File not found')
     def disableTicket(self,id):
        try:
           with open('Text.txt') as file:
@@ -138,17 +139,17 @@ class Admin:
                with open('Text.txt','w') as file:
                   file.write(s)
             except FileNotFoundError:
-               print(":(")
+               print('File not found')
        except:
-          print(':(')
+          print('File not found')
        self.splitEvents(self.importUsers('Text.txt'))
-    def ticketPriorety(self,ticket):
+    def ticketPriorety(self,_ticket):
        lis=[]
        sort_key=lambda item :item.getPriority()
-       filter_key=lambda item :item.getTikId()==ticket
+       filter_key=lambda item :item.getTikId()==_ticket
        ticketsdata=self.importUsers('Text.txt')
        for x in ticketsdata:
-          lis.append(USER(*(x.split(','))))
+          lis.append(ticket(*x.split(',')))
        lis.sort(key=sort_key)
        tk=list(filter(filter_key,lis))
        i=tk[0]
@@ -163,7 +164,7 @@ class Admin:
              file.write(s)
              file.close()
        except FileNotFoundError:
-          print('Somethink wrong')
+          print('File not found')
        self.splitEvents(self.importUsers('Text.txt'))
     def RunEvent(self,ev):
        ids=[]
@@ -174,7 +175,7 @@ class Admin:
                 print(x)
                 ids.append(x[:x.find(',')])
        except FileNotFoundError:
-          print('Error:(')
+          print('File not found')
        for x in ids:
           self.disableTicket(x)
        try:
@@ -182,14 +183,14 @@ class Admin:
        except FileNotFoundError:
           print('File not found')
        
-
-
-          
-admin=Admin()
-admin.splitEvents(admin.importUsers('Text.txt'))
-admin.BooKing('ev002','Hermis','900BC0903','7')
-
-       
+Admin=Admin()
+Admin.splitEvents(Admin.importUsers('Text.txt'))
+Admin.SaveChanges(Admin.BooKing('ev003','Afrodit','900BC0905','6'))
+#Admin.disableTicket('tick003')
+#Admin.RunEvent('ev102')
+Admin.displayAllTickets()
+Admin.displayStatics()
+Admin.ticketPriorety('tick103')
 
 
 

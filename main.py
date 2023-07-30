@@ -1,4 +1,4 @@
-from Admin import Admin
+from EventManagement import Admin
 Main=None
 def AdminPlatform():
     admin=Admin()

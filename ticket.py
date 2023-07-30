@@ -1,5 +1,5 @@
 import datetime#https://www.geeksforgeeks.org/get-current-timestamp-using-python/
-class USER:
+class ticket:
     __Tik_id=None
     __Tik_ev=None
     __User_Name=None
