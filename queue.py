@@ -13,6 +13,10 @@ class Queue:
         return self.queue[len(self.queue)-1]
     def sort_key(self,item):
         return int(item.getPriority())
+    def bigerId(self):
+        _sort_key=lambda item:int(item.getTikId()[4:])
+        self.queue.sort(key=_sort_key)
+        return self.queue[len(self.queue)-1]
     def Sorting(self):
       self.queue.sort(key=self.sort_key)
     def toString(self):

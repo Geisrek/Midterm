@@ -3,7 +3,10 @@ tick103,ev002,Tiphone,800Bc0701,0
 tick103,ev002,Eris,900BC0903,3
 tick103,ev002,Hermis,900BC0903,7
 tick104,ev002,Athina,900BC0903,7
-tick107,ev002,Hera,900BC0807,11
+tick107,ev002,Freia,2727267,7
+tick108,ev002,Achilis,373788,7
+tick109,ev002,Hektor,66526,8
+tick107,ev002,Aurora,881818,9
 tick104,ev002,Zeus,900BC0903,12
 tick105,ev002,Hadis,900BC0903,12
 tick106,ev002,Zeus,900BC0903,30

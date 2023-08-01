@@ -1,7 +1,7 @@
 from EventManagement import Admin
 Main=None
 def AdminPlatform():
-    admin=Admin()
+    admin=Admin('Text.txt')
     option=input('1. Display Statistics\n2. Book a Ticket\n3. Display all Tickets\n4. Change Ticket’s Priority\n5. Disable Ticket\n6. Run Events\n7. Exit\nYour Option:')
     if option == '1':
         admin.displayStatics()
@@ -34,28 +34,38 @@ def AdminPlatform():
       Main()
         
 
-def NormalUserPlatform(User_Name,main):
+def NormalUserPlatform(User_Name,main=None):
     option=input('1.Book a ticket\n2.Exit\nYour option:')
-    admin=Admin()
+    admin=Admin('Text.txt')
     if option=='1':
-       event_Id=input('Enter the event Id:')
-       Time_Stamp=input('Enter the date yyymmdd:')
-       admin.SaveChanges(admin.BooKing(event_Id,User_Name,Time_Stamp,'0'))
-       admin.splitEvents(admin.importUsers('Text.txt'))
-       NormalUserPlatform(User_Name)
+       try:
+          with open('path') as file:
+            evs=file.read().split(',')
+            event_Id=input(f'Enter the event Id \n{evs} please choose one of them :')
+            if not f'{event_Id}.txt' in evs:
+              print('wrong event')
+              NormalUserPlatform(User_Name)
+            else:
+              Time_Stamp=input('Enter the date yyymmdd:')
+              admin.SaveChanges(admin.BooKing(event_Id,User_Name,Time_Stamp,'0'))
+              admin.splitEvents(admin.importUsers('Text.txt'))
+              NormalUserPlatform(User_Name)
+       except:
+          print('Error!')
+       
     elif option=='2':
         main()
     else:
         print('wrong choise')
-        NormalUserPlatform(User_Name)
+        NormalUserPlatform(User_Name,main)
 def main():
     Run=input('If you want to terminate the program press 0 \nif you want to continue press any key\n your option:')
-    admin=Admin()
     if Run=='0':
          print('program is turminated')
     else:
         User_name=input('Enter User Name:')
         Password=input('Enter Password:')
+        admin=Admin('Text.txt')
         if User_name==admin.getName() and Password==admin.getPassword():
             AdminPlatform()
         elif Password=='' and not User_name=='':
@@ -64,7 +74,7 @@ def main():
             print(f'Invalid User Name [{User_name}]\n please try again')
             main()
         else:
-            print('wrong User Name or Password please try again')
+            print('Incorrect Usernameand/or Password')
             main()
 Main=main()
 main()

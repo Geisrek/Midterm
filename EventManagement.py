@@ -6,15 +6,11 @@ class Admin:
     __Password=None
     __Queue=None
     __eventsQ=None
-    def __init__(self)->None :
+    def __init__(self,file)->None :
       self.__USERName="admin"
       self.__Password="admin123123"
       self.__Queue=Queue()
-      self.splitEvents(self.importUsers('Text.txt'))
-    def getName(self):
-       return self.__USERName
-    def getPassword(self):
-       return self.__Password
+      self.splitEvents(self.importUsers(file))
     def getUserName(self):
        return self.__USERName
     def getPassword(self):
@@ -87,7 +83,7 @@ class Admin:
           path+=f'{x}.txt,'
        path+='Text.txt'
        try :
-            with open('path.txt','w') as file:
+            with open('path','w') as file:
                 file.write(path)
                 file.close()
        except FileNotFoundError:
@@ -117,7 +113,7 @@ class Admin:
        self.UpdateFile(_str)
     
     def BooKing(self,event_Id,User_Name,Time_Stamp,priorety):
-       ticket_id=int(self.__Queue.peekLast().getTikId()[4:])
+       ticket_id=int(self.__Queue.bigerId().getTikId()[4:])
        ntk=ticket_id+1
        return ticket(f"tick{ntk}",event_Id,User_Name,Time_Stamp,priorety)
     def displayAllTickets(self):
@@ -182,16 +178,3 @@ class Admin:
          os.remove(f'{ev}.txt')
        except FileNotFoundError:
           print('File not found')
-       
-Admin=Admin()
-Admin.splitEvents(Admin.importUsers('Text.txt'))
-Admin.SaveChanges(Admin.BooKing('ev003','Afrodit','900BC0905','6'))
-#Admin.disableTicket('tick003')
-#Admin.RunEvent('ev102')
-Admin.displayAllTickets()
-Admin.displayStatics()
-Admin.ticketPriorety('tick103')
-
-
-
-
